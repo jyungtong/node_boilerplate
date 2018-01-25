@@ -5,18 +5,27 @@
   "license": "MIT",
   "scripts": {
     "lint": "standard --fix",
-    "test": "yarn lint && ava **/__test__/**/*.test.js",
+    "test": "yarn lint && nyc ava **/__test__/**/*.test.js",
     "test:watch": "yarn lint && ava **/__test__/**/*.test.js --watch",
     "precommit": "yarn test && git add .",
     "build": "rm -rf dist && babel src -d dist --ignore __test__",
     "start": "nodemon -r babel-register src/index.js",
-    "start:production": "node dist/index.js"
+    "start:production": "node dist/index.js",
+    "docs:build": "rm -rf ./dist/docs && mkdir -p ./dist/docs && json-refs resolve ./docs/swagger.yaml --force -y > ./dist/docs/swagger.yaml && cp ./docs/index.html ./dist/docs/",
+    "docs:build:watch": "nodemon -e yaml -w docs --exec 'yarn docs:build'",
+    "docs:serve": "serve ./dist/docs",
+    "docs": "concurrently 'yarn docs:build:watch' 'yarn docs:serve'"
   },
   "devDependencies": {
+    "ava": "^0.24.0",
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.6.1",
+    "concurrently": "^3.5.1",
+    "json-refs": "^3.0.3",
     "nodemon": "^1.14.11",
+    "nyc": "^11.4.1",
+    "serve": "^6.4.9",
     "standard": "^10.0.3"
   },
   "dependencies": {
@@ -24,5 +33,12 @@
     "express": "^4.16.2",
     "joi": "^13.1.0",
     "mongoose": "^5.0.0"
+  },
+  "ava": {
+    "babel": "inherit",
+    "require": [
+      "babel-register"
+    ],
+    "failFast": true
   }
 }
