@@ -1,7 +1,5 @@
-import 'dotenv/config'
-
-// Init express
-const app = require('./init/express')
+// Init koa
+const app = require('./init/koa')
 
 // Init mongo
 // require('./mongo')

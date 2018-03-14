@@ -1,21 +1,38 @@
-import express from 'express'
+import Router from 'koa-router'
 import { getSecret } from '../controllers/secret.controller'
+import logger from '../lib/winston-logger'
 
-const router = express.Router()
-
-const controllerHandler = (promise, params) => async (req, res, next) => {
-  const boundParams = params ? params(req, res, next) : []
+export const controllerHandler = (promise, params) => async ctx => {
+  const boundParams = params ? params(ctx.request.query, ctx.request.body) : []
   try {
-    const result = await promise(...boundParams)
-    return res.json(result || { ok: true })
+    const result = promise && await promise(...boundParams)
+    ctx.body = { ok: true, ...result && { data: result } }
   } catch (err) {
-    return res.status(500) && next(err)
+    errorHandler(err, ctx)
   }
 }
 const c = controllerHandler
 
-router.use('/health-check', (req, res) => res.send('OK'))
+const router = new Router()
+router
+  .all('/error', c(() => { throw new Error('something wrong') }))
+  .get('/health-check', c())
+  .get('/secret', c(getSecret, (query, body) => [query, body]))
 
-router.get('/secret', c(getSecret, (req) => [req.query.user, req.query.test]))
+async function errorHandler (err, ctx) {
+  ctx.status = err.status || 500
+  ctx.body = err.message
+  ctx.app.emit('error', err, ctx)
+
+  logger.error('Koa Error', {
+    request: {
+      method: ctx.request.method,
+      url: ctx.request.url,
+      query: ctx.request.query,
+      body: ctx.request.body
+    },
+    error: err.message
+  })
+}
 
 export default router

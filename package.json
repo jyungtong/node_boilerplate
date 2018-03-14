@@ -19,6 +19,7 @@
   "devDependencies": {
     "ava": "^0.24.0",
     "babel-cli": "^6.26.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.6.1",
     "concurrently": "^3.5.1",
@@ -29,10 +30,13 @@
     "standard": "^10.0.3"
   },
   "dependencies": {
-    "dotenv": "^4.0.0",
-    "express": "^4.16.2",
     "joi": "^13.1.0",
-    "mongoose": "^5.0.0"
+    "koa": "^2.5.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-router": "^7.4.0",
+    "mongoose": "^5.0.0",
+    "winston": "^2.4.1",
+    "winston-aws-cloudwatch": "^2.0.0"
   },
   "ava": {
     "babel": "inherit",
