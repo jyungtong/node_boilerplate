@@ -30,11 +30,15 @@
     "standard": "^10.0.3"
   },
   "dependencies": {
+    "graphql": "^0.13.2",
+    "graphql-tools": "^2.23.1",
     "joi": "^13.1.0",
     "koa": "^2.5.0",
     "koa-bodyparser": "^4.2.0",
+    "koa-graphql": "^0.7.5",
     "koa-router": "^7.4.0",
     "mongoose": "^5.0.0",
+    "schemaglue": "^2.0.1",
     "winston": "^2.4.1",
     "winston-aws-cloudwatch": "^2.0.0"
   },

@@ -1,0 +1,13 @@
+type User {
+  id: String
+  name: String
+  friends(id: Int): [User]
+}
+
+type Query {
+  users(id: Int, name: String): [User]
+}
+
+type Mutation {
+  createUser(name: String!): User
+}

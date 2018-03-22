@@ -2,6 +2,8 @@ import Router from 'koa-router'
 import { getSecret } from '../controllers/secret.controller'
 import logger from '../lib/winston-logger'
 
+const graphqlRoute = require('./graphql.route')
+
 export const controllerHandler = (promise, params) => async ctx => {
   const boundParams = params ? params(ctx.request.query, ctx.request.body) : []
   try {
@@ -15,6 +17,7 @@ const c = controllerHandler
 
 const router = new Router()
 router
+  .use('/graphql', graphqlRoute.routes())
   .all('/error', c(() => { throw new Error('something wrong') }))
   .get('/health-check', c())
   .get('/secret', c(getSecret, (query, body) => [query, body]))
