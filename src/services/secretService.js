@@ -1,6 +1,4 @@
-// import { APIError } from '../lib/APIError'
-
-export function retrieveSecretFromDb (t) {
+function retrieveSecretFromDb (t) {
   return new Promise((resolve, reject) => {
     // throw new APIError('invalid', 400)
     // return reject(new APIError('invalid', 400))
@@ -10,4 +8,8 @@ export function retrieveSecretFromDb (t) {
       return resolve('secrettttt')
     }, 300)
   })
+}
+
+module.exports = {
+  retrieveSecretFromDb
 }

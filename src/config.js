@@ -1,5 +1,4 @@
-import Joi from 'joi'
-
+const Joi = require('joi')
 const debug = require('debug')('app:config')
 
 const envSchema = Joi.object().keys({
@@ -40,4 +39,4 @@ const config = {
 
 debug(config)
 
-export default config
+module.exports = config

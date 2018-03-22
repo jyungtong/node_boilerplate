@@ -1,8 +1,8 @@
-import Koa from 'koa'
-import bodyParser from 'koa-bodyparser'
-import config from '../config'
-import router from '../routes'
-import logger from '../lib/winston-logger'
+const Koa = require('koa')
+const bodyParser = require('koa-bodyparser')
+const config = require('../config')
+const router = require('../routes')
+const logger = require('../lib/winston-logger')
 
 const app = new Koa()
 const { port, isTest } = config
@@ -19,4 +19,4 @@ app
   .use(router.routes())
   .listen(port)
 
-export default app
+module.exports = app

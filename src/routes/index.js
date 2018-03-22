@@ -1,10 +1,9 @@
-import Router from 'koa-router'
-import { getSecret } from '../controllers/secret.controller'
-import logger from '../lib/winston-logger'
-
+const Router = require('koa-router')
+const { getSecret } = require('../controllers/secret.controller')
+const logger = require('../lib/winston-logger')
 const graphqlRoute = require('./graphql.route')
 
-export const controllerHandler = (promise, params) => async ctx => {
+const c = (promise, params) => async ctx => {
   const boundParams = params ? params(ctx.request.query, ctx.request.body) : []
   try {
     const result = promise && await promise(...boundParams)
@@ -13,7 +12,6 @@ export const controllerHandler = (promise, params) => async ctx => {
     errorHandler(err, ctx)
   }
 }
-const c = controllerHandler
 
 const router = new Router()
 router
@@ -38,4 +36,5 @@ async function errorHandler (err, ctx) {
   })
 }
 
-export default router
+module.exports = router
+module.controllerHandler = c

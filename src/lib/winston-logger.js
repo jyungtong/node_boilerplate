@@ -1,6 +1,6 @@
-import winston from 'winston'
-import WinstonAwsCloudWatch from 'winston-aws-cloudwatch'
-import config from '../config'
+const winston = require('winston')
+const WinstonAwsCloudWatch = require('winston-aws-cloudwatch')
+const config = require('../config')
 
 /*
  * Extract required config
@@ -33,4 +33,4 @@ const logger = new (winston.Logger)({
     : [consoleTransport]
 })
 
-export default logger
+module.exports = logger

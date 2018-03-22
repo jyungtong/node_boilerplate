@@ -1,6 +1,6 @@
-import { retrieveSecretFromDb } from '../services/secretService'
+const { retrieveSecretFromDb } = require('../services/secretService')
 
-export async function getSecret () {
+module.exports = async function getSecret () {
   const secret = await retrieveSecretFromDb()
   return { secret }
 }

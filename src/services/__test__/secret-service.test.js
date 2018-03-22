@@ -1,5 +1,5 @@
-import test from 'ava'
-import { retrieveSecretFromDb } from '../secretService'
+const test = require('ava')
+const { retrieveSecretFromDb } = require('../secretService')
 
 test('get secret', async t => {
   const res = await retrieveSecretFromDb(3)
