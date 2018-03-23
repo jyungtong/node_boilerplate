@@ -1,48 +1,23 @@
-const userMock = [
-  {
-    id: 1,
-    name: 'alice',
-    friends: [2, 3]
-  },
-  {
-    id: 2,
-    name: 'bob',
-    friends: [1, 3]
-  },
-  {
-    id: 3,
-    name: 'caca',
-    friends: [1, 2]
-  }
-]
+const { pipe } = require('ramda')
+const { users, createUser, friends } = require('./logic')
+const { isAuthenticated } = require('../../lib/graphql-helpers')
+
+function secretFunc () {
+  return 'something secret'
+}
 
 exports.resolver = {
   Query: {
-    users (root, { name, id }, context) {
-      const results = id ? userMock.filter(u => u.id === id) : userMock
+    users,
 
-      if (results.length < 1) throw new Error(`ID ${id} not found`)
-
-      return results
-    }
+    secret: pipe(isAuthenticated, secretFunc)
   },
 
   Mutation: {
-    createUser (root, { name }) {
-      const newUser = {
-        id: userMock.length + 1,
-        name
-      }
-
-      userMock.push(newUser)
-
-      return newUser
-    }
+    createUser
   },
 
   User: {
-    friends ({ friends }, { id }) {
-      return id ? userMock.filter(u => u.id === id) : userMock.filter(user => friends.includes(user.id))
-    }
+    friends
   }
 }

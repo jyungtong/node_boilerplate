@@ -6,6 +6,7 @@ type User {
 
 type Query {
   users(id: Int, name: String): [User]
+  secret: String
 }
 
 type Mutation {
