@@ -1,16 +1,22 @@
-const { pipe } = require('ramda')
+const { pipeP: pipe } = require('ramda')
 const { users, createUser, friends } = require('./logic')
-const { isAuthenticated } = require('../../lib/graphql-helpers')
+const { isAuthenticated, resolverHandler } = require('../../lib/graphql-helpers')
 
-function secretFunc () {
-  return 'something secret'
+async function secretFunc (arg) {
+  return `something secret ${arg}`
 }
 
 exports.resolver = {
   Query: {
     users,
 
-    secret: pipe(isAuthenticated, secretFunc)
+    secret: pipe(
+      isAuthenticated,
+      resolverHandler(
+        secretFunc,
+        (parent, args, ctx) => [ctx.request.headers['authorization']]
+      )
+    )
   },
 
   Mutation: {
